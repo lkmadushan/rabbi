@@ -15,8 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (FindDailyQuoteUseCase $findDailyQuoteUseCase) {
-    return view('quote', [
-        'quote' => $findDailyQuoteUseCase->execute(Date::now())
-    ]);
-});
+Route::view('/', 'app');

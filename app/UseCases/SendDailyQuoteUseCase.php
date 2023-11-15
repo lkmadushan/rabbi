@@ -7,6 +7,7 @@ use App\Models\Quote;
 use App\Models\SentQuote;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Berkayk\OneSignal\OneSignalClient;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -15,8 +16,10 @@ class SendDailyQuoteUseCase
     protected Carbon $date;
     protected Quote $dailyQuote;
 
-    public function __construct(protected FindDailyQuoteUseCase $findDailyQuoteUseCase)
-    {
+    public function __construct(
+        protected OneSignalClient $onesignal,
+        protected FindDailyQuoteUseCase $findDailyQuoteUseCase
+    ) {
     }
 
     public function execute(Carbon $date): void
@@ -54,6 +57,11 @@ class SendDailyQuoteUseCase
             ]);
 
             SentQuote::query()->insert($records->toArray());
+
+            $this->onesignal->sendNotificationToAll(
+                $this->dailyQuote->topic,
+                'http://127.0.0.1:8000/',
+            );
 
             DB::commit();
         } catch (\Exception $e) {

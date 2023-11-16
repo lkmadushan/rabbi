@@ -17,7 +17,11 @@ class RegisterUserUseCase
         }
 
         /** @var User $user */
-        $user = User::query()->firstOrNew(['onesignal_sub_id' => $pushKey]);
+        $user = User::query()->firstOrNew(['onesignal_id' => $pushKey]);
+
+        if ($user->exists) {
+            throw RegisterUserException::userAlreadyExists();
+        }
 
         $user->save();
 

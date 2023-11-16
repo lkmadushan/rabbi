@@ -13,6 +13,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'onesignal_sub_id'
+        'onesignal_id'
     ];
 }

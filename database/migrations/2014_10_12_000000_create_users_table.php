@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('onesignal_sub_id');
+            $table->string('onesignal_id');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ export default defineConfig({
         OneSignal(
             import.meta.env.VITE_ONESIGNAL_REST_API_KEY,
             import.meta.env.VITE_ONESIGNAL_APP_ID,
-             false
+            false
         ),
     ],
 });

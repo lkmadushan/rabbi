@@ -16,7 +16,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'onesignal_sub_id' => $this->faker->uuid,
+            'onesignal_id' => $this->faker->uuid,
         ];
     }
 

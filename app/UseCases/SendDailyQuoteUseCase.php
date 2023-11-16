@@ -53,18 +53,23 @@ class SendDailyQuoteUseCase
         try {
             DB::beginTransaction();
 
-            $records = $users->map(fn (User $user) => [
-                'user_id' => $user->getKey(),
-                'quote_id' => $this->dailyQuote->getKey(),
-                'sent_at' => $this->date->toDateTimeString(),
-            ]);
+            $records = [];
 
-            SentQuote::query()->insert($records->toArray());
+            foreach ($users as $user) {
+                $records[] = [
+                    'user_id' => $user->getKey(),
+                    'quote_id' => $this->dailyQuote->getKey(),
+                    'sent_at' => $this->date->toDateTimeString(),
+                ];
 
-            $this->onesignal->sendNotificationToAll(
-                $this->dailyQuote->content,
-                $this->config->get('app.url'),
-            );
+                $this->onesignal->sendNotificationToUser(
+                    $this->dailyQuote->content,
+                    $user->onesignal_sub_id,
+                    $this->config->get('app.url'),
+                );
+            }
+
+            SentQuote::query()->insert($records);
 
             DB::commit();
         } catch (Exception $e) {

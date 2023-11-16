@@ -32,9 +32,8 @@ export default {
     },
 
     methods: {
-        async requestPermission() {
-            let x = await this.$OneSignal.Slidedown.promptPush({ force: true })
-            console.log(x)
+        requestPermission() {
+            this.$OneSignal.Slidedown.promptPush({ force: true })
         },
 
         subscribe(event) {

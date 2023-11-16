@@ -27,7 +27,7 @@ class UserTest extends TestCase
     {
         app(RegisterUserUseCase::class)->execute($key = '12345');
 
-        $this->assertDatabaseHas('users', ['onesignal_sub_id' => $key]);
+        $this->assertDatabaseHas('users', ['onesignal_id' => $key]);
     }
 
 }

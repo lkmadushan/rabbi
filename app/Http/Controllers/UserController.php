@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\RegisterUserException;
-use App\UseCases\RegisterUserUseCase;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\UseCases\RegisterUserUseCase;
+use App\Exceptions\RegisterUserException;
 
 class UserController extends Controller
 {
     /**
      * @throws RegisterUserException
      */
-    public function store(Request $request, RegisterUserUseCase $registerUseCase)
+    public function store(Request $request, RegisterUserUseCase $registerUseCase): JsonResponse
     {
-        $registerUseCase->execute($request->userKey);
+        $registerUseCase->execute($request->input('onesignal_id'));
 
-        return http_response_code(201);
+        return response()->json();
     }
 }
 

@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Quote;
 use App\Models\SentQuote;
-use Mockery\MockInterface;
 use Illuminate\Support\Facades\Date;
 use Berkayk\OneSignal\OneSignalClient;
 use App\UseCases\SendDailyQuoteUseCase;
@@ -21,6 +20,9 @@ class SendDailyQuoteTest extends TestCase
     {
         $users = User::factory(10)->create();
         $quote = Quote::factory()->create();
+        $this->mock(OneSignalClient::class)
+            ->shouldReceive('sendNotificationToUser')
+            ->times(10);
 
         app(SendDailyQuoteUseCase::class)->execute(
             Date::now()
@@ -42,6 +44,10 @@ class SendDailyQuoteTest extends TestCase
     {
         Quote::factory()->create();
         User::factory(10)->create();
+        $this->mock(OneSignalClient::class)
+            ->shouldReceive('sendNotificationToUser')
+            ->times(12);
+
         app(SendDailyQuoteUseCase::class)->execute(
             $date = Date::now()
         );

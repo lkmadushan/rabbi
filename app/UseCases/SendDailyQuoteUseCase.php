@@ -56,17 +56,21 @@ class SendDailyQuoteUseCase
             $records = [];
 
             foreach ($users as $user) {
+                $this->onesignal->sendNotificationToUser(
+                    $this->dailyQuote->content,
+                    $user->onesignal_id,
+                    null,
+                    null,
+                    null,
+                    null,
+                    $this->dailyQuote->topic
+                );
+
                 $records[] = [
                     'user_id' => $user->getKey(),
                     'quote_id' => $this->dailyQuote->getKey(),
                     'sent_at' => $this->date->toDateTimeString(),
                 ];
-
-                $this->onesignal->sendNotificationToUser(
-                    $this->dailyQuote->content,
-                    $user->onesignal_sub_id,
-                    $this->config->get('app.url'),
-                );
             }
 
             SentQuote::query()->insert($records);

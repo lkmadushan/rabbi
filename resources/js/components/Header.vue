@@ -1,7 +1,7 @@
 <template>
     <div class="px-3 py-5 md:px-20 md:py-16">
         <div class="flex items-center justify-between">
-            <img class="w-12 h-12 md:w-20 md:h-20" src="../../assets/quote-left.png" alt="" />
+            <img class="w-12 h-12 md:w-20 md:h-20" src="/quote-left.png" alt="" />
 
             <button v-if="isSubscribed" type="button" class="pointer-events-none px-3 py-1.5 md:px-4 md:py-2 space-x-1 flex items-center text-sm md:text-lg bg-primary text-white hover:bg-white hover:text-primary focus:outline-0 focus:ring-2 focus:ring-white rounded-full transition delay-100">
                 <svg class="w-4 h-4 md:w-6 md:h-6 -rotate-45" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -16,7 +16,7 @@
                 <span>Subscribe</span>
             </button>
 
-            <img class="w-12 h-12 md:w-20 md:h-20" src="../../assets/quote-right.png" alt="" />
+            <img class="w-12 h-12 md:w-20 md:h-20" src="/quote-right.png" alt="" />
         </div>
     </div>
 </template>

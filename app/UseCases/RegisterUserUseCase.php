@@ -11,15 +11,15 @@ class RegisterUserUseCase
     /**
      * @throws RegisterUserException
      */
-    public function execute(string $userId): User
+    public function execute(string $userKey): User
     {
         $response = [];
-        if (empty($userId)) {
+        if (empty($userKey)) {
             throw RegisterUserException::noUserProvided();
         }
 
         $user = User::firstOrNew(
-            ['onesignal_sub_id' =>  $userId]
+            ['onesignal_sub_id' =>  $userKey]
         );
         $user->save();
 

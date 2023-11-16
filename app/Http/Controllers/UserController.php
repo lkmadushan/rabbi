@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\UseCases\UserRegisterUseCase;
+use App\Exceptions\RegisterUserException;
+use App\UseCases\RegisterUserUseCase;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * @throws RegisterUserException
+     */
+    public function store(Request $request, RegisterUserUseCase $registerUseCase)
     {
-        if (app(UserRegisterUseCase::class)->execute($request->userId)) {
-            $response=['Status'=>'1','massage'=>'User added successfully'];
-        }else{
-            $response=['Status'=>'0','massage'=>'User already exists'];
-        }
-        return $response;
+        $registerUseCase->execute($request->userKey);
+
+        return http_response_code(201);
     }
 }
+

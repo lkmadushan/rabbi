@@ -13,8 +13,8 @@ export default defineConfig({
         vue(),
         VitePWA(),
         OneSignal(
-            'YzcyNTgzMjMtZmI3OS00YmQzLTg2YzktZWFkMWIzNjliOGQ2',
-            '51fdf5c5-a9a3-42b7-94a6-36067d273cf7',
+            import.meta.env.VITE_ONESIGNAL_REST_API_KEY,
+            import.meta.env.VITE_ONESIGNAL_APP_ID,
              false
         ),
     ],

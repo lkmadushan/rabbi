@@ -60,7 +60,7 @@ class SendDailyQuoteUseCase
 
             $this->onesignal->sendNotificationToAll(
                 $this->dailyQuote->topic,
-                'http://127.0.0.1:8000/',
+                env('APP_URL'),
             );
 
             DB::commit();

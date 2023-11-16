@@ -50,7 +50,7 @@ export default {
 
         register(user) {
             if (user !== undefined) {
-                axios.post('api/register', { userId: user })
+                axios.post('api/register', { userKey: user })
             }
         },
 

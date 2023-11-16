@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Exceptions\UserHandleException;
-use App\UseCases\UserRegisterUseCase;
+use App\Exceptions\RegisterUserException;
+use App\UseCases\RegisterUserUseCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -14,8 +14,8 @@ class UserTest extends TestCase
     public function when_empty_user_id_sends_then_gives_error(): void
     {
         try {
-            app(UserRegisterUseCase::class)->execute('');
-        } catch (UserHandleException $e) {
+            app(RegisterUserUseCase::class)->execute('');
+        } catch (RegisterUserException $e) {
             $this->assertEquals("No user ID found", $e->getMessage());
         }
     }
@@ -24,7 +24,7 @@ class UserTest extends TestCase
     public function when_user_id_sends_then_save_it_into_database(): void
     {
         $userId = "12345";
-        app(UserRegisterUseCase::class)->execute($userId);
+        app(RegisterUserUseCase::class)->execute($userId);
 
         $this->assertDatabaseHas(
             'users', [

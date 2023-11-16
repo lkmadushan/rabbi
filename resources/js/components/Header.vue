@@ -49,7 +49,7 @@ export default {
 
         register(user) {
             if (user !== undefined) {
-                axios.post('api/register', { userKey: user })
+                axios.post('api/register', { onesignal_id: user })
             }
         },
 

@@ -2,25 +2,23 @@
 
 namespace App\UseCases;
 
-use App\Exceptions\RegisterUserException;
 use App\Models\User;
-use function PHPUnit\Framework\isEmpty;
+use App\Exceptions\RegisterUserException;
 
 class RegisterUserUseCase
 {
     /**
      * @throws RegisterUserException
      */
-    public function execute(string $userKey): User
+    public function execute(string $pushKey): User
     {
-        $response = [];
-        if (empty($userKey)) {
-            throw RegisterUserException::noUserProvided();
+        if (empty($pushKey)) {
+            throw RegisterUserException::noPushNotificationKeyProvided();
         }
 
-        $user = User::firstOrNew(
-            ['onesignal_sub_id' =>  $userKey]
-        );
+        /** @var User $user */
+        $user = User::query()->firstOrNew(['onesignal_sub_id' => $pushKey]);
+
         $user->save();
 
         return $user;

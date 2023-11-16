@@ -10,26 +10,24 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
-    public function when_empty_user_id_sends_then_gives_error(): void
+    public function when_empty_push_notification_key_provided(): void
     {
         try {
             app(RegisterUserUseCase::class)->execute('');
         } catch (RegisterUserException $e) {
-            $this->assertEquals("No user ID found", $e->getMessage());
+            $this->assertEquals("No push notification key provided", $e->getMessage());
         }
     }
 
     /** @test */
-    public function when_user_id_sends_then_save_it_into_database(): void
+    public function when_push_notification_key_provided(): void
     {
-        $userId = "12345";
-        app(RegisterUserUseCase::class)->execute($userId);
+        app(RegisterUserUseCase::class)->execute($key = '12345');
 
-        $this->assertDatabaseHas(
-            'users', [
-            'onesignal_sub_id' => $userId,
-        ]);
+        $this->assertDatabaseHas('users', ['onesignal_sub_id' => $key]);
     }
 
 }

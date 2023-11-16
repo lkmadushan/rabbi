@@ -2,6 +2,7 @@
 
 namespace App\UseCases;
 
+use Exception;
 use App\Models\User;
 use App\Models\Quote;
 use App\Models\SentQuote;
@@ -9,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Berkayk\OneSignal\OneSignalClient;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Collection;
 
 class SendDailyQuoteUseCase
@@ -17,8 +19,9 @@ class SendDailyQuoteUseCase
     protected Quote $dailyQuote;
 
     public function __construct(
+        protected Repository $config,
         protected OneSignalClient $onesignal,
-        protected FindDailyQuoteUseCase $findDailyQuoteUseCase
+        protected FindDailyQuoteUseCase $findDailyQuoteUseCase,
     ) {
     }
 
@@ -59,13 +62,15 @@ class SendDailyQuoteUseCase
             SentQuote::query()->insert($records->toArray());
 
             $this->onesignal->sendNotificationToAll(
-                $this->dailyQuote->topic,
-                env('APP_URL'),
+                $this->dailyQuote->content,
+                $this->config->get('app.url'),
             );
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
+
+            report($e);
         }
     }
 }

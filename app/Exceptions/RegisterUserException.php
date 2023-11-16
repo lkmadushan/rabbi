@@ -2,10 +2,12 @@
 
 namespace App\Exceptions;
 
-class RegisterUserException extends \Exception
+use Exception;
+
+class RegisterUserException extends Exception
 {
-    public static function noUserProvided(): RegisterUserException
+    public static function noPushNotificationKeyProvided(): RegisterUserException
     {
-        return new self('No user ID found');
+        return new self('No push notification key provided');
     }
 }

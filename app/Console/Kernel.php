@@ -14,9 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->call(
-            fn() => app(SendDailyQuoteUseCase::class)->execute(Date::now())
-        )->everyMinute();
+        $schedule->call(fn() => app(SendDailyQuoteUseCase::class)->execute(Date::now()))
+            ->everyMinute();
     }
 
     /**

@@ -10,7 +10,7 @@ class RegisterUserUseCase
     /**
      * @throws RegisterUserException
      */
-    public function execute(string $pushKey): User
+    public function execute($pushKey): User
     {
         if (empty($pushKey)) {
             throw RegisterUserException::noPushNotificationKeyProvided();

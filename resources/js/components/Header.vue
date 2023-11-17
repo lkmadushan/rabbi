@@ -53,19 +53,20 @@ export default {
             return axios.post('register', { onesignal_id: user })
         },
 
-        async checkSubscription() {
-            await this.$OneSignal.User.PushSubscription.optIn()
+        checkAlreadySubscribed() {
+            const user = this.$OneSignal.User.PushSubscription.id
 
-            this.isSubscribed = this.$OneSignal.User.PushSubscription.optedIn
-
-            if (this.isSubscribed) {
-                this.register(this.$OneSignal.User.PushSubscription.id)
+            if (user) {
+                this.isSubscribed = true
+                this.register(user)
             }
         }
     },
 
-    beforeMount() {
-        this.checkSubscription()
+    mounted() {
+        this.$OneSignal.User.PushSubscription.optIn()
+
+        this.checkAlreadySubscribed()
 
         this.$OneSignal.User.PushSubscription.addEventListener("change", this.subscribe)
     }

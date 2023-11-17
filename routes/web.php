@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\UseCases\FindDailyQuoteUseCase;
 use App\Http\Controllers\UserController;
 
 /*
@@ -16,4 +18,8 @@ use App\Http\Controllers\UserController;
 
 Route::view('/', 'app');
 
-Route::post('register',[UserController::class,'store']);
+Route::post('register',[UserController::class, 'store']);
+
+Route::get('quote',function () {
+    return app(FindDailyQuoteUseCase::class)->execute(Carbon::now());
+});

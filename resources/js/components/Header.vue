@@ -68,10 +68,6 @@ export default {
         this.checkSubscription()
 
         this.$OneSignal.User.PushSubscription.addEventListener("change", this.subscribe)
-    },
-
-    beforeUnmount() {
-        clearTimeout(this.timeout)
     }
 };
 </script>

@@ -16,7 +16,7 @@ export default {
 
     methods: {
         getQuote() {
-            axios.get('api/quote').then(response => {
+            axios.get('quote').then(response => {
                 this.quote = response.data.content
             });
         },

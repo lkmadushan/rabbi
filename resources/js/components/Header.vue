@@ -48,23 +48,24 @@ export default {
         },
 
         register(user) {
-            if (user !== undefined) {
-                axios.post('api/register', { onesignal_id: user })
-            }
+            if (user !== undefined) Promise.reject('User is undefined')
+
+            return axios.post('register', { onesignal_id: user })
         },
 
-        checkUserSubscribed() {
-            this.timeout = setTimeout(
-                () => {
-                    this.isSubscribed = this.$OneSignal.Notifications.permission
-                },
-                3200
-            )
+        async checkSubscription() {
+            await this.$OneSignal.User.PushSubscription.optIn()
+
+            this.isSubscribed = this.$OneSignal.User.PushSubscription.optedIn
+
+            if (this.isSubscribed) {
+                this.register(this.$OneSignal.User.PushSubscription.id)
+            }
         }
     },
 
-    mounted() {
-        this.checkUserSubscribed()
+    beforeMount() {
+        this.checkSubscription()
 
         this.$OneSignal.User.PushSubscription.addEventListener("change", this.subscribe)
     },

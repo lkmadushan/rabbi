@@ -1,8 +1,7 @@
 <?php
 
-use App\UseCases\FindDailyQuoteUseCase;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'app');
+
+Route::post('register',[UserController::class,'store']);

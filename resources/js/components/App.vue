@@ -11,9 +11,13 @@ import Header from './Header.vue'
 import Footer from './Footer.vue'
 import Instructions from './Instructions.vue'
 import Quote from './Quote.vue'
+
 export default {
     components: {
-        Quote,Header,Footer,Instructions
+        Quote,
+        Header,
+        Footer,
+        Instructions
     }
 }
 </script>

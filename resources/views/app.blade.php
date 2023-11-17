@@ -10,10 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     @vite('resources/js/app.js')
     <link rel="manifest" href="/manifest.json">
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js" async=""></script>
     <script>
         tailwind.config = {
             theme: {

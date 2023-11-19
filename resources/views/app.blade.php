@@ -28,7 +28,7 @@
         }
     </script>
 </head>
-<body>
+<body class="bg-black">
     <div id="app"></div>
 </body>
 </html>

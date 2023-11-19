@@ -56,24 +56,13 @@
             </div>
         </div>
     </div>
-
-    <portal to="subscribe-button">
-        <SubscribeButton />
-    </portal>
 </template>
 
 <script>
 import router from '../routes/index.js'
-import SubscribeButton from '../components/SubscribeButton.vue'
 
 export default {
     name: 'Instructions',
-
-    components: {
-        SubscribeButton
-    },
-
-    emits: ['append-classes'],
 
     mounted() {
         setTimeout(() => {

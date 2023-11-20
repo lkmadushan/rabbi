@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 md:flex flex-1 md:space-x-4 space-y-8 md:space-y-0">
+    <div class="px-4 md:flex mx-auto flex-1 md:space-x-4 space-y-8 md:space-y-0">
         <div class="md:w-1/3">
             <div class="xl:w-1/2 mx-auto space-y-6">
                 <p class="text-lg md:text-2xl">Welcome to <br class="hidden md:block" /><span class="font-bold">‘Chiefly Quotes’</span></p>
@@ -24,7 +24,7 @@
                 <div class="text-primary whitespace-nowrap">Step 2:</div>
                 <div class="md:inline-flex flex-1">
                     <span class="mr-2">Scroll down and click</span>
-                    <button type="button" class="pointer-events-none px-2.5 py-0.5 flex items-center bg-primary text-white hover:bg-white hover:text-primary focus:outline-0 focus:ring-2 focus:ring-white rounded-full transition delay-100">
+                    <button type="button" class="pointer-events-none px-2.5 py-0.5 flex items-center bg-primary text-white hover:bg-white hover:text-primary focus:outline-0 focus:ring-2 focus:ring-white rounded-full transition delay-100 inline-flex">
                         <span class="text-sm">Add to Home Screen</span>
                     </button>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="text-primary whitespace-nowrap">Step 3:</div>
                 <div class="md:inline-flex flex-1">
                     <span class="mr-2">Review settings and click</span>
-                    <button type="button" class="pointer-events-none px-2.5 py-0.5 flex items-center bg-primary text-white hover:bg-white hover:text-primary focus:outline-0 focus:ring-2 focus:ring-white rounded-full transition delay-100">
+                    <button type="button" class="pointer-events-none px-2.5 py-0.5 flex items-center bg-primary text-white hover:bg-white hover:text-primary focus:outline-0 focus:ring-2 focus:ring-white rounded-full transition delay-100 inline-flex">
                         <span class="text-sm">Add</span>
                     </button>
                 </div>
@@ -57,3 +57,21 @@
         </div>
     </div>
 </template>
+
+<script>
+import router from '../routes/index.js'
+
+export default {
+    name: 'Instructions',
+
+    mounted() {
+        this.timeout = setTimeout(() => {
+            router.push({ path: '/quotes' })
+        }, 20000);
+    },
+
+    beforeUnmount() {
+        clearTimeout(this.timeout)
+    }
+}
+</script>

@@ -9,26 +9,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <link rel="manifest" href="/manifest.json">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#662483',
-                    },
-                    fontFamily: {
-                        sans: ["'PT Sans'", 'sans-serif'],
-                        serif: ["'PT Serif'", 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
 </head>
-<body>
-<div id="app"></div>
+<body class="bg-black">
+    <div id="app"></div>
 </body>
 </html>

@@ -10,10 +10,14 @@ use App\UseCases\FindDailyQuoteUseCase;
 
 class QuoteController extends Controller
 {
-    public function index(Request $request, FindDailyQuoteUseCase $dailyQuoteUseCase): Quote
+    public function index(Request $request, FindDailyQuoteUseCase $dailyQuoteUseCase): array
     {
         $page = $request->input('page');
         $date =  Session::get('date', Carbon::now());
+
+        if (empty($page)) {
+            $date = Carbon::now();
+        }
 
         if ($page === 'next') {
             $date = $date->addDay();
@@ -25,6 +29,11 @@ class QuoteController extends Controller
 
         Session::put('date', $date);
 
-        return $dailyQuoteUseCase->execute($date);
+        $quote = $dailyQuoteUseCase->execute($date);
+
+        return [
+            'topic' => $quote->topic,
+            'content' => $quote->content
+        ];
     }
 }

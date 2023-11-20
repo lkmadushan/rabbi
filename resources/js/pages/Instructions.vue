@@ -65,9 +65,13 @@ export default {
     name: 'Instructions',
 
     mounted() {
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
             router.push({ path: '/quotes' })
-        }, 10000);
+        }, 20000);
     },
+
+    beforeUnmount() {
+        clearTimeout(this.timeout)
+    }
 }
 </script>

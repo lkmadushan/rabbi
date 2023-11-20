@@ -39,16 +39,12 @@ export default {
         }
     },
 
-    mounted() {
-        this.$OneSignal.User.PushSubscription.optIn()
+    async mounted() {
+        await this.$OneSignal.User.PushSubscription.optIn()
 
         this.checkAlreadySubscribed()
 
         this.$OneSignal.User.PushSubscription.addEventListener("change", this.subscribe)
-
-        if (this.isSubscribed === true) {
-            router.push({ path: '/quotes' })
-        }
     },
 
     methods: {
@@ -76,10 +72,20 @@ export default {
             }
         },
 
-        register(user) {
-            if (user !== undefined) Promise.reject('User is undefined')
+        async register(user) {
+            if (user === undefined) {
+                return Promise.reject('User is undefined')
+            }
 
-            return axios.post('register', { onesignal_id: user })
+            try {
+                await axios.post('register', { onesignal_id: user })
+
+                return router.push({ path: '/instructions' })
+            } catch (error) {
+                if (error.response.data === 'User already exists') {
+                    return router.push({ path: '/quotes' })
+                }
+            }
         }
     }
 }

@@ -15,6 +15,8 @@ use App\Http\Controllers\QuoteController;
 |
 */
 
+Route::get('{any}', fn() => view('app'))->where('any', '^(?!OneSignalSDKWorker.js).*$');
+
 Route::middleware('cache.headers:public;max_age=7200')
     ->get(
         'manifest.json',
@@ -43,5 +45,3 @@ Route::middleware('cache.headers:public;max_age=7200')
 Route::post('register', [UserController::class, 'store']);
 
 Route::get('quote', [QuoteController::class, 'index']);
-
-Route::get('{any}', fn() => view('app'))->where('any', '^(?!OneSignalSDKWorker.js).*$');

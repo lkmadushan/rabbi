@@ -49,5 +49,4 @@ Route::post('register', [UserController::class, 'store']);
 
 Route::get('quote', [QuoteController::class, 'index']);
 
-Route::get('{any}', fn() => view('app'))
-    ->where('any', '^(?!OneSignalSDKWorker.js|manifest.json).*$');
+Route::get('{any}', fn() => view('app'))->where('any', '.*');

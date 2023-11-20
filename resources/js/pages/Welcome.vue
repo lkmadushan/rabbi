@@ -25,6 +25,7 @@
 import axios from 'axios'
 import SubscribeButton from '../components/SubscribeButton.vue'
 import router from '../routes/index.js'
+import OneSignal from '@onesignal/onesignal-vue3'
 
 export default {
     name: 'Welcome',
@@ -39,8 +40,8 @@ export default {
         }
     },
 
-    async mounted() {
-        await this.$OneSignal.User.PushSubscription.optIn()
+    mounted() {
+        this.$OneSignal.User.PushSubscription.optIn()
 
         this.checkAlreadySubscribed()
 

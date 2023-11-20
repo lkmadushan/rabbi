@@ -59,19 +59,7 @@
 </template>
 
 <script>
-import router from '../routes/index.js'
-
 export default {
     name: 'Instructions',
-
-    mounted() {
-        this.timeout = setTimeout(() => {
-            router.push({ path: '/quotes' })
-        }, 20000);
-    },
-
-    beforeUnmount() {
-        clearTimeout(this.timeout)
-    }
 }
 </script>

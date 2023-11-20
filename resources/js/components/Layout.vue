@@ -18,12 +18,6 @@
 export default {
     name: 'Layout',
 
-    data() {
-      return {
-          className: ''
-      }
-    },
-
     computed: {
         classes() {
             return this.$route.name === 'Quotes' ? 'bg-rabbisacks' : ''

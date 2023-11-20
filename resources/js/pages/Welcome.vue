@@ -50,6 +50,10 @@ export default {
 
     methods: {
         requestPermission() {
+            if (this.detectOS() === 'iOS' && ! this.isPWA()) {
+                return router.push({ path: '/instructions' })
+            }
+
             this.$OneSignal.Slidedown.promptPush({ force: true })
         },
 
@@ -81,12 +85,43 @@ export default {
             try {
                 await axios.post('register', { onesignal_id: user })
 
-                return router.push({ path: '/instructions' })
+                return router.push({ path: '/quotes' })
             } catch (error) {
                 if (error.response.data === 'User already exists') {
                     return router.push({ path: '/quotes' })
                 }
             }
+        },
+
+        isPWA() {
+            return window.navigator.standalone === true || // iOS PWA Standalone
+                document.referrer.includes('android-app://') || // Android Trusted Web App
+                ["fullscreen", "standalone", "minimal-ui"].some(
+                    (displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches
+                ) // Chrome PWA (supporting fullscreen, standalone, minimal-ui)
+        },
+
+        detectOS() {
+            let userAgent = window.navigator.userAgent,
+                platform = window.navigator.platform,
+                macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+                windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+                iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+                os = null;
+
+            if (macosPlatforms.indexOf(platform) !== -1) {
+                os = 'Mac OS';
+            } else if (iosPlatforms.indexOf(platform) !== -1) {
+                os = 'iOS';
+            } else if (windowsPlatforms.indexOf(platform) !== -1) {
+                os = 'Windows';
+            } else if (/Android/.test(userAgent)) {
+                os = 'Android';
+            } else if (!os && /Linux/.test(platform)) {
+                os = 'Linux';
+            }
+
+            return os;
         }
     }
 }

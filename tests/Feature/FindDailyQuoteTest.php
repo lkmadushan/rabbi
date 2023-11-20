@@ -7,7 +7,9 @@ use App\Models\UsedQuote;
 use App\Models\User;
 use App\UseCases\FindDailyQuoteUseCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class FindDailyQuoteTest extends TestCase
@@ -121,5 +123,38 @@ class FindDailyQuoteTest extends TestCase
         $dailyQuote = app(FindDailyQuoteUseCase::class)->execute(Date::parse('2023-04-01'));
 
         $this->assertNotEquals('Topic 1', $dailyQuote->topic);
+    }
+
+    /** @test */
+    public function when_request_next_quote_continuously_then_date_increment_by_one()
+    {
+        Carbon::setTestNow('2023-11-17');
+        User::factory()->create();
+        Quote::factory(10)->create();
+
+        $this->get('/quote');
+
+        for ($i = 0; $i < 5; $i++) {
+            $date =  Session::get('date', Carbon::now());
+            $response = $this->get('/quote?page=next');
+            $response->assertOk();
+            $this->assertEquals($date->format('Y-m-d'),(Session::get('date')->format('Y-m-d')));
+        }
+    }
+
+    /** @test */
+    public function when_request_previous_quote_continuously_then_date_decrement_by_one()
+    {
+        User::factory()->create();
+        Quote::factory(10)->create();
+
+        $this->get('/quote');
+
+        for ($i = 0; $i < 5; $i++) {
+            $date =  Session::get('date', Carbon::now());
+            $response = $this->get('/quote?page=previous');
+            $response->assertOk();
+            $this->assertEquals($date->format('Y-m-d'),(Session::get('date')->format('Y-m-d')));
+        }
     }
 }

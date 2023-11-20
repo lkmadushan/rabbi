@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
             ->call(fn() => app(SendDailyQuoteUseCase::class)->execute(Date::now()))
             ->name('Send daily quote')
             ->onOneServer()
-            ->everyMinute();
+            ->hourly();
     }
 
     /**

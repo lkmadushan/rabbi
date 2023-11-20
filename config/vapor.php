@@ -40,7 +40,7 @@ return [
     */
 
     'serve_assets' => [
-        'OneSignalSDKWorker.js'
+        //
     ],
 
 ];

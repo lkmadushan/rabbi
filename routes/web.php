@@ -43,6 +43,11 @@ Route::middleware('cache.headers:public;max_age=7200')
         ])
     );
 
+Route::get('OneSignalSDKWorker.js', fn () => response()->file(public_path('OneSignalSDKWorker.js'), [
+    'Content-Type' => 'text/javascript',
+    'Cache-Control' => 'public, max-age=3600',
+]));
+
 Route::post('register', [UserController::class, 'store']);
 
 Route::get('quote', [QuoteController::class, 'index']);

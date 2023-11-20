@@ -15,15 +15,16 @@ use App\Http\Controllers\QuoteController;
 |
 */
 
-Route::get('{any}', fn() => view('app'))->where('any', '^(?!OneSignalSDKWorker.js).*$');
+Route::get('{any}', fn() => view('app'))
+    ->where('any', '^(?!OneSignalSDKWorker.js|manifest.json).*$');
 
 Route::middleware('cache.headers:public;max_age=7200')
     ->get(
         'manifest.json',
-        fn(): array => [
-            "name" => "rabbisacks.org",
-            "short_name" => "rabbisacks",
-            "description" => "A progressive web app.",
+        fn() => response()->json([
+            "name" => "Chiefly Quotes",
+            "short_name" => "Chiefly Quotes",
+            "description" => "Daily quotes from Chiefly.",
             "icons" => [
                 [
                     "src" => asset("logo.ico"),
@@ -39,7 +40,7 @@ Route::middleware('cache.headers:public;max_age=7200')
             "start_url" => "/",
             "display" => "standalone",
             "theme_color" => "#000000"
-        ]
+        ])
     );
 
 Route::post('register', [UserController::class, 'store']);

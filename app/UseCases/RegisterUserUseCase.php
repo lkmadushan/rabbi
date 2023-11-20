@@ -4,9 +4,17 @@ namespace App\UseCases;
 
 use App\Models\User;
 use App\Exceptions\RegisterUserException;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class RegisterUserUseCase
 {
+    public function __construct(
+        protected SendQuoteUseCase $sendQuoteUseCase,
+        protected FindDailyQuoteUseCase $findDailyQuoteUseCase,
+    ) {
+    }
+
     /**
      * @throws RegisterUserException
      */
@@ -23,7 +31,13 @@ class RegisterUserUseCase
             throw RegisterUserException::userAlreadyExists();
         }
 
-        $user->save();
+        DB::transaction(function () use ($user) {
+            $quote = $this->findDailyQuoteUseCase->execute(Date::now());
+
+            $this->sendQuoteUseCase->execute($user, $quote);
+
+            $user->save();
+        });
 
         return $user;
     }

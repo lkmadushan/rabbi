@@ -8,9 +8,7 @@ use App\Models\Quote;
 use App\Models\SentQuote;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Berkayk\OneSignal\OneSignalClient;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Collection;
 
 class SendDailyQuoteUseCase
@@ -19,8 +17,7 @@ class SendDailyQuoteUseCase
     protected Quote $dailyQuote;
 
     public function __construct(
-        protected Repository $config,
-        protected OneSignalClient $onesignal,
+        protected SendQuoteUseCase $sendQuoteUseCase,
         protected FindDailyQuoteUseCase $findDailyQuoteUseCase,
     ) {
     }
@@ -56,15 +53,7 @@ class SendDailyQuoteUseCase
             $records = [];
 
             foreach ($users as $user) {
-                $this->onesignal->sendNotificationToUser(
-                    $this->dailyQuote->content,
-                    $user->onesignal_id,
-                    null,
-                    null,
-                    null,
-                    null,
-                    $this->dailyQuote->topic
-                );
+                $this->sendQuoteUseCase->execute($user, $this->dailyQuote);
 
                 $records[] = [
                     'user_id' => $user->getKey(),

@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Quote;
+use App\UseCases\FindDailyQuoteUseCase;
+use App\UseCases\SendQuoteUseCase;
 use Tests\TestCase;
 use App\Models\User;
 use App\UseCases\RegisterUserUseCase;
@@ -25,6 +28,14 @@ class UserTest extends TestCase
     /** @test */
     public function when_push_notification_key_provided(): void
     {
+        $this->mock(FindDailyQuoteUseCase::class)
+            ->shouldReceive('execute')
+            ->once()
+            ->andReturn(new Quote);
+        $this->mock(SendQuoteUseCase::class)
+            ->shouldReceive('execute')
+            ->once();
+
         app(RegisterUserUseCase::class)->execute($key = '12345');
 
         $this->assertDatabaseHas('users', ['onesignal_id' => $key]);

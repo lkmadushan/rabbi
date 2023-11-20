@@ -28,10 +28,12 @@ class UserTest extends TestCase
     /** @test */
     public function when_push_notification_key_provided(): void
     {
+        $quote = Quote::factory()->create();
+
         $this->mock(FindDailyQuoteUseCase::class)
             ->shouldReceive('execute')
             ->once()
-            ->andReturn(new Quote);
+            ->andReturn($quote);
         $this->mock(SendQuoteUseCase::class)
             ->shouldReceive('execute')
             ->once();

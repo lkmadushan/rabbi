@@ -9,3 +9,4 @@ environments:
     build:
       - 'composer install --no-dev'
       - 'php artisan event:cache'
+      - 'npm run build'

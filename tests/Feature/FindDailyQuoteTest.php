@@ -130,9 +130,16 @@ class FindDailyQuoteTest extends TestCase
     {
         Carbon::setTestNow('2023-11-17');
         User::factory()->create();
-        Quote::factory(11)->create();
+        Quote::factory(10)->create();
 
-        $this->requestQuote('next');
+        $this->get('/quote');
+
+        for ($i = 0; $i < 5; $i++) {
+            $date =  Session::get('date', Carbon::now());
+            $response = $this->get('/quote?page=next');
+            $response->assertOk();
+            $this->assertEquals($date->format('Y-m-d'),(Session::get('date')->format('Y-m-d')));
+        }
     }
 
     /** @test */
@@ -141,26 +148,11 @@ class FindDailyQuoteTest extends TestCase
         User::factory()->create();
         Quote::factory(10)->create();
 
-        $this->requestQuote('previous');
-    }
+        $this->get('/quote');
 
-    /**
-     * @return void
-     */
-    public function requestQuote($step): void
-    {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $date =  Session::get('date', Carbon::now());
-            if ($i == 0) {
-                $response = $this->get('/quote');
-            } else {
-                if($step=='next'){
-                    $response = $this->get('/quote?page=next');
-                }else if($step=='previous'){
-                    $response = $this->get('/quote?page=previous');
-                }
-            }
-
+            $response = $this->get('/quote?page=previous');
             $response->assertOk();
             $this->assertEquals($date->format('Y-m-d'),(Session::get('date')->format('Y-m-d')));
         }

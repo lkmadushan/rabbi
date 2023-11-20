@@ -17,6 +17,6 @@ use App\Http\Controllers\UserController;
 
 Route::view('/', 'app');
 
-Route::post('register',[UserController::class, 'store']);
+Route::post('register', [UserController::class, 'store']);
 
-Route::get('quote',[QuoteController::class,'index']);
+Route::get('quote', [QuoteController::class, 'index']);

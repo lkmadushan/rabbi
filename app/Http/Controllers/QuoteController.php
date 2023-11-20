@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quote;
-use App\UseCases\FindDailyQuoteUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use App\UseCases\FindDailyQuoteUseCase;
 
 class QuoteController extends Controller
 {
@@ -24,6 +24,7 @@ class QuoteController extends Controller
         }
 
         Session::put('date', $date);
+
         return $dailyQuoteUseCase->execute($date);
     }
 }

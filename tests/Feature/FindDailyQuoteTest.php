@@ -126,7 +126,7 @@ class FindDailyQuoteTest extends TestCase
     }
 
     /** @test */
-    public function when_request_next_quote_continuously_then_date_increment_by_one()
+    public function when_request_next_quote()
     {
         Carbon::setTestNow('2023-11-17');
         User::factory()->create();
@@ -138,12 +138,12 @@ class FindDailyQuoteTest extends TestCase
             $date =  Session::get('date', Carbon::now());
             $response = $this->get('/quote?page=next');
             $response->assertOk();
-            $this->assertEquals($date->format('Y-m-d'),(Session::get('date')->format('Y-m-d')));
+            $this->assertEquals($date->format('Y-m-d'), Session::get('date')->format('Y-m-d'));
         }
     }
 
     /** @test */
-    public function when_request_previous_quote_continuously_then_date_decrement_by_one()
+    public function when_request_previous_quote()
     {
         User::factory()->create();
         Quote::factory(10)->create();
@@ -154,7 +154,7 @@ class FindDailyQuoteTest extends TestCase
             $date =  Session::get('date', Carbon::now());
             $response = $this->get('/quote?page=previous');
             $response->assertOk();
-            $this->assertEquals($date->format('Y-m-d'),(Session::get('date')->format('Y-m-d')));
+            $this->assertEquals($date->format('Y-m-d'), Session::get('date')->format('Y-m-d'));
         }
     }
 }

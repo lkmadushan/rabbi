@@ -40,8 +40,8 @@ export default {
         }
     },
 
-    mounted() {
-        this.$OneSignal.User.PushSubscription.optIn()
+    async mounted() {
+        await this.$OneSignal.User.PushSubscription.optIn()
 
         this.checkAlreadySubscribed()
 

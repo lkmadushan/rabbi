@@ -32,12 +32,6 @@ export default {
 
     mounted() {
         this.getQuote()
-
-        this.$emit('append-classes', 'bg-rabbisacks')
-    },
-
-    beforeUnmount() {
-        this.$emit('append-classes', '')
     },
 
     methods: {

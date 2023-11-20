@@ -46,6 +46,8 @@ export default {
         this.checkAlreadySubscribed()
 
         this.$OneSignal.User.PushSubscription.addEventListener("change", this.subscribe)
+
+        this.$OneSignal.Debug.setLogLevel('trace');
     },
 
     methods: {

@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
-use App\UseCases\FindDailyQuoteUseCase;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\QuoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +19,4 @@ Route::post('register', [UserController::class, 'store']);
 
 Route::get('quote', [QuoteController::class, 'index']);
 
-Route::get('{any}', function () {
-    return view('app');
-})->where('any','.*');
+Route::get('{any}', fn () => view('app'))->where('any','.*');

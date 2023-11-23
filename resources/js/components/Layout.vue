@@ -3,6 +3,7 @@
         <div class="px-3 py-5 md:px-20 md:py-16">
             <div class="flex items-center justify-between">
                 <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-left.png')" alt="left" />
+                <div id="subscribe-container"></div>
                 <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-right.png')" alt="right" />
             </div>
         </div>

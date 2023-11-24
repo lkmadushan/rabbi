@@ -27,8 +27,8 @@
 
 <script>
 import axios from 'axios'
-import SubscribeButton from "../components/SubscribeButton.vue";
-import router from "../routes/index.js";
+import SubscribeButton from '../components/SubscribeButton.vue'
+import router from '../routes/index.js'
 
 export default {
     name: 'Quote',
@@ -41,7 +41,7 @@ export default {
         return {
             quote: '',
             isSubscribed: false
-        };
+        }
     },
 
     async mounted() {
@@ -118,21 +118,21 @@ export default {
                 macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
                 windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
                 iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-                os = null;
+                os = null
 
             if (macosPlatforms.indexOf(platform) !== -1) {
-                os = 'Mac OS';
+                os = 'Mac OS'
             } else if (iosPlatforms.indexOf(platform) !== -1) {
-                os = 'iOS';
+                os = 'iOS'
             } else if (windowsPlatforms.indexOf(platform) !== -1) {
-                os = 'Windows';
+                os = 'Windows'
             } else if (/Android/.test(userAgent)) {
-                os = 'Android';
+                os = 'Android'
             } else if (!os && /Linux/.test(platform)) {
-                os = 'Linux';
+                os = 'Linux'
             }
 
-            return os;
+            return os
         }
     },
 }

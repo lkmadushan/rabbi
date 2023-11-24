@@ -6,7 +6,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
     plugins: [
         laravel({
-            detectTls: 'rabbi.test',
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),

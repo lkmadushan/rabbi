@@ -31,7 +31,7 @@ import SubscribeButton from '../components/SubscribeButton.vue'
 import router from '../routes/index.js'
 
 export default {
-    name: 'quote',
+    name: 'Quote',
 
     components: {
         SubscribeButton
@@ -56,7 +56,7 @@ export default {
 
     methods: {
         getQuote(page = '') {
-            axios.get(`/quote?page=${page}`).then(response => {
+            axios.get(`/quote?page=${ page }`).then(response => {
                 this.quote = response.data.content
             });
         },
@@ -71,10 +71,10 @@ export default {
 
         requestPermission() {
             if (this.detectOS() === 'iOS' && !this.isPWA()) {
-                return router.push({name: 'instructions'})
+                return router.push({ name: 'instructions' })
             }
 
-            this.$OneSignal.Slidedown.promptPush({force: true})
+            this.$OneSignal.Slidedown.promptPush({ force: true })
         },
 
         checkAlreadySubscribed() {
@@ -102,7 +102,7 @@ export default {
                 return Promise.reject('User is undefined')
             }
 
-            await axios.post('register', {onesignal_id: user})
+            await axios.post('register', { onesignal_id: user })
         },
 
         isPWA() {

@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: 'layout',
+    name: 'Layout',
 
     computed: {
         classes() {

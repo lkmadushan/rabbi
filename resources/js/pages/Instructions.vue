@@ -60,6 +60,6 @@
 
 <script>
 export default {
-    name: 'instructions',
+    name: 'Instructions',
 }
 </script>

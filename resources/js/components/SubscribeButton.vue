@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: 'SubscribeButton',
+    name: 'subscribeButton',
 
     props: {
         isSubscribed: {

@@ -31,7 +31,7 @@ import SubscribeButton from '../components/SubscribeButton.vue'
 import router from '../routes/index.js'
 
 export default {
-    name: 'Quote',
+    name: 'quote',
 
     components: {
         SubscribeButton
@@ -46,6 +46,7 @@ export default {
 
     async mounted() {
         this.getQuote()
+
         await this.$OneSignal.User.PushSubscription.optIn()
 
         this.checkAlreadySubscribed()
@@ -70,7 +71,7 @@ export default {
 
         requestPermission() {
             if (this.detectOS() === 'iOS' && !this.isPWA()) {
-                return router.push({path: '/instructions'})
+                return router.push({name: 'instructions'})
             }
 
             this.$OneSignal.Slidedown.promptPush({force: true})

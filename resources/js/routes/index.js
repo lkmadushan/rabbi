@@ -5,12 +5,12 @@ import Quotes from '../pages/Quotes.vue'
 const routes = [
     {
         path: '/',
-        name: 'Quotes',
+        name: 'quotes',
         component: Quotes,
     },
     {
         path: '/instructions',
-        name: 'Instructions',
+        name: 'instructions',
         component: Instructions,
     },
 ];

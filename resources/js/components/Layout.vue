@@ -17,11 +17,11 @@
 
 <script>
 export default {
-    name: 'Layout',
+    name: 'layout',
 
     computed: {
         classes() {
-            return this.$route.name === 'Quotes' ? 'bg-rabbisacks' : ''
+            return this.$route.name === 'quotes' ? 'bg-rabbisacks' : ''
         }
     }
 }

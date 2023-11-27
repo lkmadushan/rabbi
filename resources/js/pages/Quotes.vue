@@ -83,6 +83,8 @@ export default {
             if (user) {
                 this.isSubscribed = true
                 this.register(user)
+            } else if (this.isPWA()) {
+                this.$OneSignal.Slidedown.promptPush({ force: true })
             }
         },
 

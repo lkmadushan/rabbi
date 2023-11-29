@@ -41,6 +41,7 @@ class FindDailyQuoteUseCase
                     ->select('quote_id')
                     ->whereDate('used_at', $this->date)
             )
+            ->orderByDesc('scheduled_at')
             ->firstOrFail();
 
         return $quote;

@@ -13,7 +13,7 @@
     @vite('resources/js/app.js')
     <link rel="manifest" href="{{ url('manifest.json') }}">
 </head>
-<body class="bg-black">
+<body class="bg-secondary">
     <div id="app"></div>
 </body>
 </html>

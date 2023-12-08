@@ -7,15 +7,16 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#662483',
+                primary: '#6d2281',
+                secondary: '#2b1138',
             },
             fontFamily: {
                 sans: ["'PT Sans'", 'sans-serif'],
                 serif: ["'PT Serif'", 'serif'],
             },
-            backgroundImage: theme => ({
-                'rabbisacks': "url('/profile.png')"
-            })
+            backgroundImage: {
+                'rabbisacks': "url('/profile.jpg')"
+            }
         },
     },
     plugins: [],

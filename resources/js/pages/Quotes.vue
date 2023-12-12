@@ -1,14 +1,18 @@
 <template>
-    <teleport to="#subscribe-container">
-        <div class="flex justify-center">
-            <SubscribeButton :is-subscribed="isSubscribed" @request-permission="requestPermission"/>
+    <div class="px-3 py-5 md:px-20 md:py-16">
+        <div class="flex justify-center flex-col">
+            <SubscribeButton :is-subscribed="isSubscribed" @request-permission="requestPermission" class="mb-10 flex justify-center"/>
+            <div class="flex justify-center">
+                <img :src="asset('quote.png')" alt="quotes" class="w-auto h-16 md:h-16">
+            </div>
         </div>
-    </teleport>
+    </div>
+
     <div class="px-2 md:px-4 flex flex-col justify-center flex-1 text-center">
         <div class="flex items-center justify-between">
             <button @click="getPrevQuote" class="p-2 group flex items-center justify-center" type="button">
-                <svg class="w-6 h-6 text-white opacity-50 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg"
-                     fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <svg class="w-8 h-8 text-white opacity-50 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6d2281">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
                 </svg>
             </button>
@@ -16,8 +20,8 @@
                 <p class="font-serif text-3xl sm:text-4xl lg:text-5xl leading-snug lg:leading-normal">{{ quote }}</p>
             </div>
             <button @click="getNextQuote" class="p-2 group flex items-center justify-center" type="button">
-                <svg class="w-6 h-6 text-white opacity-50 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg"
-                     fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <svg class="w-8 h-8 text-white opacity-50 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6d2281">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
                 </svg>
             </button>

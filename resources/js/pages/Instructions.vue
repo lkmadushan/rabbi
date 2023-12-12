@@ -1,4 +1,11 @@
 <template>
+    <div class="px-3 py-5 md:px-20 md:py-16">
+        <div class="flex justify-between">
+            <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-left.png')" alt="left" />
+            <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-right.png')" alt="right" />
+        </div>
+    </div>
+
     <div class="px-4 md:flex mx-auto flex-1 md:space-x-4 space-y-8 md:space-y-0">
         <div class="md:w-1/3">
             <div class="xl:w-1/2 mx-auto space-y-6">

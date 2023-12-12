@@ -1,12 +1,5 @@
 <template>
-    <div class="flex bg-black flex-col flex-1 h-full text-white text-sm bg-[length:900px] md:bg-auto bg-no-repeat bg-bottom bg-cover]" :class="classes">
-        <div class="px-3 py-5 md:px-20 md:py-16">
-            <div class="flex items-center justify-between">
-                <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-left.png')" alt="left" />
-                <div id="subscribe-container"></div>
-                <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-right.png')" alt="right" />
-            </div>
-        </div>
+    <div class="flex bg-secondary flex-col text-white h-full text-sm bg-no-repeat mt-auto bg-[length:600px] bg-center" :class="classes">
         <router-view/>
         <div class="px-4 py-10 text-center">
             <img class="w-auto h-16 lg:h-24 mt-3 mb-1 inline-flex" :src="asset('signature.png')" alt="signature" />

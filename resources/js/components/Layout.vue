@@ -3,7 +3,7 @@
         <router-view/>
         <div class="px-4 py-10 text-center">
             <img class="w-auto h-16 lg:h-24 mt-3 mb-1 inline-flex" :src="asset('signature.png')" alt="signature" />
-            <p>Find out more <br /><a class="outline-0 hover:underline focus:underline" href="https://rabbisacks.org">www.rabbisacks.org</a></p>
+            <p>Find out more <br /><a class="outline-0 hover:underline focus:underline" href="https://rabbisacks.org" target="_blank">www.rabbisacks.org</a></p>
         </div>
     </div>
 </template>

@@ -18,11 +18,6 @@ class SendQuoteUseCase
         $this->onesignal->sendNotificationToUser(
             $quote->content,
             $receiver->onesignal_id,
-            null,
-            null,
-            null,
-            null,
-            $quote->topic
         );
     }
 }

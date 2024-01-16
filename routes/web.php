@@ -19,9 +19,9 @@ Route::middleware('cache.headers:public;max_age=7200')
     ->get(
         'manifest.json',
         fn() => response()->json([
-            "name" => "Chiefly Quotes",
-            "short_name" => "Chiefly Quotes",
-            "description" => "Daily quotes from Chiefly.",
+            "name" => "Rabbi Sacks",
+            "short_name" => "Rabbi Sacks",
+            "description" => "Your Daily Quote",
             "icons" => [
                 [
                     "src" => asset("logo.ico"),

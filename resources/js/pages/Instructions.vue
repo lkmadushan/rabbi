@@ -1,8 +1,7 @@
 <template>
     <div class="px-3 py-5 md:px-20 md:py-16">
-        <div class="flex justify-between">
-            <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-left.png')" alt="left" />
-            <img class="w-12 h-12 md:w-20 md:h-20" :src="asset('quote-right.png')" alt="right" />
+        <div class="flex justify-center">
+            <img :src="asset('quote.png')" alt="quotes" class="w-auto h-16 md:h-16">
         </div>
     </div>
 

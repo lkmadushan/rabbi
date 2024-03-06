@@ -5,32 +5,36 @@ namespace App\UseCases;
 use App\Models\Quote;
 use App\Models\UsedQuote;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Exceptions\QuotesException;
 
 class FindDailyQuoteUseCase
 {
     protected Carbon $date;
-    protected Quote $dailyQuote;
+    protected ?Quote $dailyQuote;
 
+    /**
+     * @throws QuotesException
+     */
     public function execute(Carbon $date): Quote
     {
         $this->date = $date;
 
-        try {
-            $this->dailyQuote = $this->findScheduledOrUsedQuote();
-        } catch (ModelNotFoundException $e) {
-            $this->dailyQuote = $this->findNewQuote();
-
-            $this->markQuoteAsUsed();
+        if ($this->date->isFuture()) {
+            throw QuotesException::quotesNotFound($this->date);
         }
+
+        $this->dailyQuote = $this->findScheduledOrUsedQuote() ?? $this->findNewQuote();
+
+        if (!$this->dailyQuote) {
+            throw QuotesException::quotesNotFound($this->date);
+        }
+
+        $this->markQuoteAsUsed();
 
         return $this->dailyQuote;
     }
 
-    /**
-     * @throws ModelNotFoundException
-     */
-    protected function findScheduledOrUsedQuote(): Quote
+    protected function findScheduledOrUsedQuote(): ?Quote
     {
         /** @var Quote $quote */
         $quote = Quote::query()
@@ -42,12 +46,12 @@ class FindDailyQuoteUseCase
                     ->whereDate('used_at', $this->date)
             )
             ->orderByDesc('scheduled_at')
-            ->firstOrFail();
+            ->first();
 
         return $quote;
     }
 
-    protected function findNewQuote(): Quote
+    protected function findNewQuote(): ?Quote
     {
         /** @var Quote $quote */
         $quote = Quote::query()

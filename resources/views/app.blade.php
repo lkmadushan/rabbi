@@ -12,8 +12,16 @@
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <link rel="manifest" href="{{ url('manifest.json') }}">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVF4NZ2FME"></script>
 </head>
 <body class="bg-secondary">
     <div id="app"></div>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QVF4NZ2FME');
+    </script>
 </body>
 </html>

@@ -57,4 +57,18 @@ class SendDailyQuoteTest extends TestCase
 
         $this->assertEquals(12, SentQuote::query()->count());
     }
+
+    /** @test */
+    public function when_no_quote_exist()
+    {
+        $this->mock(OneSignalClient::class)
+            ->shouldReceive('sendNotificationToUser')
+            ->times(0);
+
+        app(SendDailyQuoteUseCase::class)->execute(
+            Date::now()
+        );
+
+        $this->assertEquals(0, SentQuote::query()->count());
+    }
 }

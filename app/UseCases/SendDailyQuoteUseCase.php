@@ -8,13 +8,14 @@ use App\Models\Quote;
 use App\Models\SentQuote;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Exceptions\QuotesException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class SendDailyQuoteUseCase
 {
     protected Carbon $date;
-    protected Quote $dailyQuote;
+    protected ?Quote $dailyQuote;
 
     public function __construct(
         protected SendQuoteUseCase $sendQuoteUseCase,
@@ -24,14 +25,18 @@ class SendDailyQuoteUseCase
 
     public function execute(Carbon $date): void
     {
-        $this->date = $date;
-        $this->dailyQuote = $this->findDailyQuoteUseCase->execute($date);
+        try {
+            $this->date = $date;
+            $this->dailyQuote = $this->findDailyQuoteUseCase->execute($date);
 
-        $this->queryUsersRemainingToSend()
-            ->chunk(
-                1000,
-                fn (Collection $users) => $this->send($users)
-            );
+            $this->queryUsersRemainingToSend()
+                ->chunk(
+                    1000,
+                    fn (Collection $users) => $this->send($users)
+                );
+        } catch (QuotesException $e) {
+            //
+        }
     }
 
     public function queryUsersRemainingToSend(): Builder

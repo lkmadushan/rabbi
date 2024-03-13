@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Exceptions\QuotesException;
 use Illuminate\Support\Facades\Session;
 use App\UseCases\FindDailyQuoteUseCase;
 
 class QuoteController extends Controller
 {
+    /**
+     * @throws Exception
+     */
     public function index(Request $request, FindDailyQuoteUseCase $dailyQuoteUseCase): array
     {
         $page = $request->input('page');
@@ -28,11 +33,18 @@ class QuoteController extends Controller
 
         Session::put('date', $date);
 
-        $quote = $dailyQuoteUseCase->execute($date);
+        try {
+            $quote = $dailyQuoteUseCase->execute($date);
 
-        return [
-            'topic' => $quote->topic,
-            'content' => $quote->content
-        ];
+            return [
+                'date' => $date,
+                'topic' => $quote->topic,
+                'content' => $quote->content,
+            ];
+        } catch (QuotesException $e) {
+            return [
+                'message' => $e->getMessage()
+            ];
+        }
     }
 }

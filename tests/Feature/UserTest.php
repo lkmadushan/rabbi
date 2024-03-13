@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Quote;
-use App\UseCases\FindDailyQuoteUseCase;
-use App\UseCases\SendQuoteUseCase;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Quote;
+use App\UseCases\SendQuoteUseCase;
 use App\UseCases\RegisterUserUseCase;
+use App\UseCases\FindDailyQuoteUseCase;
 use App\Exceptions\RegisterUserException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -54,5 +54,17 @@ class UserTest extends TestCase
         } catch (RegisterUserException $e) {
             $this->assertEquals("User already exists", $e->getMessage());
         }
+    }
+
+    /** @test */
+    public function when_quote_not_exist_when_user_register()
+    {
+        $this->mock(SendQuoteUseCase::class)
+            ->shouldReceive('execute')
+            ->times(0);
+
+        app(RegisterUserUseCase::class)->execute($key = '12345');
+
+        $this->assertDatabaseHas('users', ['onesignal_id' => $key]);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\UseCases;
 
-use App\Models\SentQuote;
 use App\Models\User;
-use App\Exceptions\RegisterUserException;
+use App\Models\SentQuote;
+use App\Exceptions\QuotesException;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
+use App\Exceptions\RegisterUserException;
 
 class RegisterUserUseCase
 {
@@ -32,19 +32,21 @@ class RegisterUserUseCase
             throw RegisterUserException::userAlreadyExists();
         }
 
-        DB::transaction(function () use ($user) {
+        $user->save();
+
+        try {
             $quote = $this->findDailyQuoteUseCase->execute($date = Date::now());
 
             $this->sendQuoteUseCase->execute($user, $quote);
-
-            $user->save();
 
             SentQuote::query()->insert([
                 'user_id' => $user->getKey(),
                 'quote_id' => $quote->getKey(),
                 'sent_at' => $date->toDateTimeString(),
             ]);
-        });
+        } catch (QuotesException $e) {
+            //
+        }
 
         return $user;
     }

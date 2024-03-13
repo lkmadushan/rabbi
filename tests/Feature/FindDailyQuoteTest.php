@@ -2,15 +2,16 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
+use App\Models\User;
 use App\Models\Quote;
 use App\Models\UsedQuote;
-use App\Models\User;
-use App\UseCases\FindDailyQuoteUseCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Testing\TestResponse;
+use App\UseCases\FindDailyQuoteUseCase;
 use Illuminate\Support\Facades\Session;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FindDailyQuoteTest extends TestCase
 {
@@ -156,5 +157,33 @@ class FindDailyQuoteTest extends TestCase
             $response->assertOk();
             $this->assertEquals($date->format('Y-m-d'), Session::get('date')->format('Y-m-d'));
         }
+    }
+
+    /** @test */
+    public function when_no_scheduled_quote_for_given_date_and_no_used_quotes()
+    {
+        $response = $this->getJson('/quote');
+
+        $this->assertQuotesNotFoundExceptionReceived($response, Carbon::now());
+    }
+
+    /** @test */
+    public function when_get_quotes_for_future_date()
+    {
+        Session::put('date', Carbon::now());
+
+        $response = $this->getJson('/quote?page=next');
+
+        $this->assertQuotesNotFoundExceptionReceived($response, Carbon::now()->addDay());
+    }
+
+    protected function assertQuotesNotFoundExceptionReceived(TestResponse $response, Carbon $date): void
+    {
+        $response->assertOk();
+
+        $this->assertSame(
+            'Quotes not found for '.$date->toDateString(),
+            $response->json('message')
+        );
     }
 }

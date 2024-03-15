@@ -11,8 +11,8 @@ module.exports = {
                 secondary: '#2b1138',
             },
             fontFamily: {
-                sans: ["'PT Sans'", 'sans-serif'],
-                serif: ["'PT Serif'", 'serif'],
+                sans: ["'Merriweather'", 'sans-serif'],
+                serif: ["'Merriweather'", 'serif'],
             },
             backgroundImage: {
                 'rabbisacks': "url('/profile.jpg')"

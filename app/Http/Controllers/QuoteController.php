@@ -40,9 +40,11 @@ class QuoteController extends Controller
                 'date' => $date,
                 'topic' => $quote->topic,
                 'content' => $quote->content,
+                'source' => $quote->source ?? ''
             ];
         } catch (QuotesException $e) {
             return [
+                'date' => $date,
                 'message' => $e->getMessage()
             ];
         }

@@ -130,41 +130,37 @@ class FindDailyQuoteTest extends TestCase
     public function when_request_next_quote()
     {
         Carbon::setTestNow('2023-11-17');
-        User::factory()->create();
         Quote::factory(10)->create();
 
-        $this->get('/quote');
+        Session::put('date', Carbon::parse('2023-11-07'));
 
         for ($i = 0; $i < 5; $i++) {
-            $date =  Session::get('date', Carbon::now());
-            $response = $this->get('/quote?page=next');
-            $response->assertOk();
-            $this->assertEquals($date->format('Y-m-d'), Session::get('date')->format('Y-m-d'));
+            $response = $this->getQuote('next');
+
+            $this->assertNextQuoteReceived($response, Carbon::parse('2023-11-07')->addDays($i + 1));
         }
     }
 
     /** @test */
     public function when_request_previous_quote()
     {
-        User::factory()->create();
         Quote::factory(10)->create();
 
         $this->get('/quote');
 
         for ($i = 0; $i < 5; $i++) {
-            $date =  Session::get('date', Carbon::now());
-            $response = $this->get('/quote?page=previous');
-            $response->assertOk();
-            $this->assertEquals($date->format('Y-m-d'), Session::get('date')->format('Y-m-d'));
+            $response = $this->getQuote('previous');
+
+            $this->assertPreviousQuoteReceived($response, Carbon::now()->subDays($i + 1));
         }
     }
 
     /** @test */
     public function when_no_scheduled_quote_for_given_date_and_no_used_quotes()
     {
-        $response = $this->getJson('/quote');
+        $response = $this->getQuote();
 
-        $this->assertQuotesNotFoundExceptionReceived($response, Carbon::now());
+        $this->assertQuotesNotReceived($response, Carbon::now());
     }
 
     /** @test */
@@ -172,18 +168,68 @@ class FindDailyQuoteTest extends TestCase
     {
         Session::put('date', Carbon::now());
 
-        $response = $this->getJson('/quote?page=next');
+        $response = $this->getQuote('next');
 
-        $this->assertQuotesNotFoundExceptionReceived($response, Carbon::now()->addDay());
+        $this->assertQuotesNotReceived($response, Carbon::now()->addDay());
     }
 
-    protected function assertQuotesNotFoundExceptionReceived(TestResponse $response, Carbon $date): void
+    protected function getQuote(string $page = null): TestResponse
+    {
+        $url = '/quote';
+
+        if ($page) {
+            $url .= '?page='.$page;
+        }
+
+        return $this->getJson($url);
+    }
+
+    protected function assertNextQuoteReceived(TestResponse $response, Carbon $expectedDate): void
+    {
+        $this->assertQuoteReceived($response, $expectedDate);
+    }
+
+    protected function assertPreviousQuoteReceived(TestResponse $response, Carbon $expectedDate): void
+    {
+        $this->assertQuoteReceived($response, $expectedDate);
+    }
+
+    protected function assertQuoteReceived(TestResponse $response, Carbon $expectedDate): void
     {
         $response->assertOk();
+
+        $this->assertEquals($expectedDate->format('Y-m-d'), Session::get('date')->format('Y-m-d'));
+
+        $response->assertJsonStructure([
+            'date',
+            'topic',
+            'content',
+            'source'
+        ]);
+
+        $this->assertNotNull($response->json('date'));
+        $this->assertNotNull($response->json('topic'));
+        $this->assertNotNull($response->json('content'));
+        $this->assertNotNull($response->json('source'));
+    }
+
+    protected function assertQuotesNotReceived(TestResponse $response, Carbon $date): void
+    {
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'date',
+            'message'
+        ]);
 
         $this->assertSame(
             'Quotes not found for '.$date->toDateString(),
             $response->json('message')
+        );
+
+        $this->assertSame(
+            $date->toDateString(),
+            Carbon::parse($response->json('date'))->toDateString()
         );
     }
 }

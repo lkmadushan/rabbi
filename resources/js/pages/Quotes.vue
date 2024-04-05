@@ -15,9 +15,12 @@
         </svg>
     </button>
     <div class="px-2 md:px-4 flex flex-col justify-center flex-1 text-center mx-10">
-        <div class="flex items-center justify-between">
+        <div class="flex-col items-center justify-between">
             <div class="sm:w-10/12 xl:w-1/2 mx-auto">
                 <p class="font-serif text-3xl sm:text-4xl lg:text-5xl leading-snug lg:leading-normal">{{ quote.content }}</p>
+            </div>
+            <div class="pt-[70px] flex justify-center text-center">
+                <p class="w-1/2">{{ quote.source }}</p>
             </div>
         </div>
     </div>
@@ -45,7 +48,8 @@ export default {
         return {
             quote: {
                 date: '',
-                content: ''
+                content: '',
+                source: ''
             },
             isSubscribed: false
         }
@@ -53,7 +57,8 @@ export default {
 
     computed: {
         isPastDate() {
-            return (new Date(this.quote.date)).toLocaleDateString() < (new Date()).toLocaleDateString()
+            return (new Date(this.quote.date)).setHours(0, 0, 0, 0)
+                < (new Date()).setHours(0, 0, 0, 0)
         }
     },
 
@@ -72,6 +77,7 @@ export default {
             axios.get(`/quote?page=${ page }`).then(response => {
                 this.quote.content = response.data.content
                 this.quote.date = response.data.date
+                this.quote.source = response.data.source
             });
         },
 

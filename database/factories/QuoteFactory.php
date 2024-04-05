@@ -20,7 +20,7 @@ class QuoteFactory extends Factory
                 'Topic 2',
                 'Topic 3',
             ]),
-            'content' => fake()->text()
+            'content' => fake()->text(),
         ];
     }
 }

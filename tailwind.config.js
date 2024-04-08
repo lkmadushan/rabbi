@@ -8,7 +8,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: '#6d2281',
-                secondary: '#2b1138',
+                secondary: '#291238',
             },
             fontFamily: {
                 sans: ["'Merriweather'", 'sans-serif'],

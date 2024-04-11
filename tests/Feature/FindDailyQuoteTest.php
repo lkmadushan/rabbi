@@ -17,6 +17,10 @@ class FindDailyQuoteTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected Quote $quoteOne;
+    protected Quote $quoteTwo;
+    protected Quote $quoteThree;
+
     /** @test */
     public function when_multiple_scheduled_daily_quotes_exists_for_given_date_find_matching_for_date()
     {
@@ -173,6 +177,46 @@ class FindDailyQuoteTest extends TestCase
         $this->assertQuotesNotReceived($response, Carbon::now()->addDay());
     }
 
+    /**
+     * @test
+     * @dataProvider requestTimeAndExpectedQuoteProvider
+     */
+    public function when_multiple_scheduled_quotes_exists_for_same_date(Carbon $date, string $quote)
+    {
+        $this->quoteOne = Quote::factory()
+            ->create([
+                'topic' => 'Topic 1',
+                'scheduled_at' => Date::parse('2023-11-17 07:10:00'),
+            ]);
+
+        $this->quoteTwo = Quote::factory()
+            ->create([
+                'topic' => 'Topic 2',
+                'scheduled_at' => Date::parse('2023-11-17 11:30:00'),
+            ]);
+
+        $this->quoteThree = Quote::factory()
+            ->create([
+                'topic' => 'Topic 3',
+                'scheduled_at' => Date::parse('2023-11-17 15:40:00'),
+            ]);
+
+        Carbon::setTestNow($date);
+
+        $response = $this->getQuote();
+
+        $this->assertNewestReleasedQuoteReceived($response, $this->{$quote});
+    }
+
+    public static function requestTimeAndExpectedQuoteProvider(): array
+    {
+        return [
+            ['date' => Date::parse('2023-11-17 11:29:59'), 'quote' => 'quoteOne'],
+            ['date' => Date::parse('2023-11-17 11:30:00'), 'quote' => 'quoteTwo'],
+            ['date' => Date::parse('2023-11-17')->endOfDay(), 'quote' => 'quoteThree'],
+        ];
+    }
+
     protected function getQuote(string $page = null): TestResponse
     {
         $url = '/quote';
@@ -231,5 +275,12 @@ class FindDailyQuoteTest extends TestCase
             $date->toDateString(),
             Carbon::parse($response->json('date'))->toDateString()
         );
+    }
+
+    protected function assertNewestReleasedQuoteReceived(TestResponse $response, Quote $scheduledQuote): void
+    {
+        $response->assertOk();
+
+        $this->assertSame($scheduledQuote->topic, $response->json('topic'));
     }
 }

@@ -31,7 +31,7 @@ class SendDailyQuoteUseCase
 
             $this->queryUsersRemainingToSend()
                 ->chunk(
-                    1000,
+                    50,
                     fn (Collection $users) => $this->send($users)
                 );
         } catch (QuotesException $e) {

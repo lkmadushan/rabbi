@@ -6,6 +6,7 @@ use App\Models\Quote;
 use App\Models\UsedQuote;
 use Illuminate\Support\Carbon;
 use App\Exceptions\QuotesException;
+use Illuminate\Support\Facades\Log;
 
 class FindDailyQuoteUseCase
 {
@@ -38,7 +39,7 @@ class FindDailyQuoteUseCase
     {
         /** @var Quote $quote */
         $quote = Quote::query()
-            ->whereDate('scheduled_at', $this->date)
+            ->where('scheduled_at', '<=', $this->date)
             ->orWhereIn(
                 'id',
                 UsedQuote::query()
